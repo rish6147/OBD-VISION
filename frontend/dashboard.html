@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - OBD Vision</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">OV</div>
+                <span>OBD Vision</span>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">My Videos</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-info">
+                        <h4>John Doe</h4>
+                        <p>john@company.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1>Welcome back, John! 👋</h1>
+            <p>Create stunning videos from your OBD-II data in minutes</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🎬</div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Total Videos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Processing</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">156</div>
+                <div class="stat-label">Data Files</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💾</div>
+                <div class="stat-value">2.4 GB</div>
+                <div class="stat-label">Storage Used</div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-header">
+                <h2>Create New Video</h2>
+            </div>
+            <div class="upload-grid">
+                <!-- OBD-II Data Upload -->
+                <div class="upload-area" id="dataUploadArea" onclick="document.getElementById('dataFile').click()">
+                    <div class="upload-icon">📊</div>
+                    <h3>Upload OBD-II Data</h3>
+                    <p>CSV, Excel, or TXT files</p>
+                    <button class="upload-btn">
+                        <span>Choose File</span>
+                        <span>📁</span>
+                    </button>
+                    <input type="file" id="dataFile" accept=".csv,.xlsx,.xls,.txt" style="display: none;" onchange="handleDataUpload(event)">
+                    <div class="file-info" id="dataFileInfo">
+                        <div class="file-name" id="dataFileName"></div>
+                        <div class="file-size" id="dataFileSize"></div>
+                    </div>
+                </div>
+
+                <!-- Photos Upload -->
+                <div class="upload-area" id="photoUploadArea" onclick="document.getElementById('photoFile').click()">
+                    <div class="upload-icon">🖼️</div>
+                    <h3>Upload Photos/Images</h3>
+                    <p>JPG, PNG, or multiple images</p>
+                    <button class="upload-btn">
+                        <span>Choose Files</span>
+                        <span>📷</span>
+                    </button>
+                    <input type="file" id="photoFile" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event)">
+                    <div class="file-info" id="photoFileInfo">
+                        <div class="file-name" id="photoFileName"></div>
+                        <div class="file-size" id="photoFileSize"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="generate-section">
+                <button class="generate-btn" id="generateBtn" disabled onclick="generateVideo()">
+                    🎬 Generate Video
+                </button>
+            </div>
+        </div>
+
+        <!-- Generated Videos -->
+        <div class="videos-section">
+            <div class="videos-header">
+                <h2>Your Videos</h2>
+                <div class="filter-tabs">
+                    <button class="filter-tab active">All</button>
+                    <button class="filter-tab">Completed</button>
+                    <button class="filter-tab">Processing</button>
+                </div>
+            </div>
+
+            <div class="videos-grid">
+                <!-- Video Card 1 -->
+                <div class="video-card" onclick="openVideoModal('Vehicle Performance Analysis', '2024-11-10')">
+                    <div class="video-thumbnail">
+                        🎬
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Vehicle Performance Analysis</div>
+                        <div class="video-meta">
+                            <span>Nov 10, 2024</span>
+                            <span class="video-status">✓ Completed</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="video-card" onclick="openVideoModal('Engine Diagnostics Report', '2024-11-08')">
+                    <div class="video-thumbnail">
+                        🎬
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Engine Diagnostics Report</div>
+                        <div class="video-meta">
+                            <span>Nov 8, 2024</span>
+                            <span class="video-status">✓ Completed</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 3 (Processing) -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        ⏳
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Fleet Data Analysis</div>
+                        <div class="video-meta">
+                            <span>Nov 11, 2024</span>
+                            <span class="video-status processing">⏱️ Processing</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn" disabled>Processing...</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 4 -->
+                <div class="video-card" onclick="openVideoModal('Highway Drive Analysis', '2024-11-05')">
+                    <div class="video-thumbnail">
+                        🎬
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Highway Drive Analysis</div>
+                        <div class="video-meta">
+                            <span>Nov 5, 2024</span>
+                            <span class="video-status">✓ Completed</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 5 -->
+                <div class="video-card" onclick="openVideoModal('City Traffic Report', '2024-11-03')">
+                    <div class="video-thumbnail">
+                        🎬
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">City Traffic Report</div>
+                        <div class="video-meta">
+                            <span>Nov 3, 2024</span>
+                            <span class="video-status">✓ Completed</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 6 -->
+                <div class="video-card" onclick="openVideoModal('Fuel Efficiency Study', '2024-11-01')">
+                    <div class="video-thumbnail">
+                        🎬
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Fuel Efficiency Study</div>
+                        <div class="video-meta">
+                            <span>Nov 1, 2024</span>
+                            <span class="video-status">✓ Completed</span>
+                        </div>
+                        <div class="video-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
+                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Video Title</h2>
+                <button class="close-btn" onclick="closeVideoModal()">×</button>
+            </div>
+            <div class="video-player">
+                🎬 Video Player
+            </div>
+            <div class="video-meta">
+                <span id="modalDate"></span>
+                <span class="video-status">✓ Completed</span>
+            </div>
+            <div class="video-actions" style="margin-top: 1.5rem;">
+                <button class="action-btn" onclick="downloadVideo()">📥 Download</button>
+                <button class="action-btn" onclick="shareVideo()">🔗 Share</button>
+                <button class="action-btn" onclick="deleteVideo()">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

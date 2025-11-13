@@ -16,9 +16,9 @@
             </div>
             <div class="nav-right">
                 <ul class="nav-menu">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">My Videos</a></li>
-                    <li><a href="#">Settings</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videosgen.html">My Videos</a></li>
+                    <li><a href="uploads.html">Uploads</a></li>
                     <li><a href="#">Help</a></li>
                 </ul>
                 <div class="user-profile">
@@ -44,23 +44,10 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">🎬</div>
-                <div class="stat-value">24</div>
-                <div class="stat-label">Total Videos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⏱️</div>
-                <div class="stat-value">3</div>
-                <div class="stat-label">Processing</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📊</div>
-                <div class="stat-value">156</div>
-                <div class="stat-label">Data Files</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💾</div>
-                <div class="stat-value">2.4 GB</div>
-                <div class="stat-label">Storage Used</div>
+                <div class="stat-content">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Total Videos Created</div>
+                </div>
             </div>
         </div>
 
@@ -74,31 +61,15 @@
                 <div class="upload-area" id="dataUploadArea" onclick="document.getElementById('dataFile').click()">
                     <div class="upload-icon">📊</div>
                     <h3>Upload OBD-II Data</h3>
-                    <p>CSV, Excel, or TXT files</p>
+                    <p>CSV or Excel files with vehicle diagnostics</p>
                     <button class="upload-btn">
                         <span>Choose File</span>
                         <span>📁</span>
                     </button>
-                    <input type="file" id="dataFile" accept=".csv,.xlsx,.xls,.txt" style="display: none;" onchange="handleDataUpload(event)">
+                    <input type="file" id="dataFile" accept=".csv,.xlsx,.xls" style="display: none;" onchange="handleDataUpload(event)">
                     <div class="file-info" id="dataFileInfo">
                         <div class="file-name" id="dataFileName"></div>
                         <div class="file-size" id="dataFileSize"></div>
-                    </div>
-                </div>
-
-                <!-- Photos Upload -->
-                <div class="upload-area" id="photoUploadArea" onclick="document.getElementById('photoFile').click()">
-                    <div class="upload-icon">🖼️</div>
-                    <h3>Upload Photos/Images</h3>
-                    <p>JPG, PNG, or multiple images</p>
-                    <button class="upload-btn">
-                        <span>Choose Files</span>
-                        <span>📷</span>
-                    </button>
-                    <input type="file" id="photoFile" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event)">
-                    <div class="file-info" id="photoFileInfo">
-                        <div class="file-name" id="photoFileName"></div>
-                        <div class="file-size" id="photoFileSize"></div>
                     </div>
                 </div>
             </div>

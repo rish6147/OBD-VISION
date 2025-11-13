@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Files & Videos - OBD Vision</title>
+    <link rel="stylesheet" href="css/uploads.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="nav-logo-icon">OV</div>
+                <span>OBD Vision</span>
+            </a>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="#" onclick="showPage('files')" id="filesNav" class="active">Files Uploaded</a></li>
+                    <li><a href="videosgen.html">Videos Generated</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+                <div class="user-avatar">JD</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Files Page -->
+    <div class="main-container" id="filesPage">
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Files Uploaded</h1>
+                <p>Manage your OBD-II data files</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn btn-primary" onclick="document.getElementById('uploadInput').click()">
+                    <span>📤</span>
+                    <span>Upload OBD-II Data</span>
+                </button>
+                <input type="file" id="uploadInput" style="display: none;" accept=".csv,.xlsx,.xls" multiple onchange="handleFileUpload(event)">
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search files...">
+            </div>
+            <div class="filter-group">
+                <select class="filter-select">
+                    <option>All Files</option>
+                    <option>CSV Files</option>
+                    <option>Excel Files</option>
+                </select>
+                <select class="filter-select">
+                    <option>Newest First</option>
+                    <option>Oldest First</option>
+                    <option>Name A-Z</option>
+                </select>
+                <div class="view-toggle">
+                    <button class="view-btn active" onclick="toggleView('grid')">📊</button>
+                    <button class="view-btn" onclick="toggleView('list')">📝</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="files-grid" id="filesGrid">
+            <div class="file-card" onclick="openFileModal('vehicle-data-2024.csv', '2.4 MB', 'Nov 10, 2024')">
+                <div class="file-icon-wrapper">📊</div>
+                <div class="file-info">
+                    <h3>vehicle-data-2024.csv</h3>
+                    <div class="file-meta">
+                        <span>2.4 MB</span>
+                        <span>Nov 10, 2024</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-card" onclick="openFileModal('obd-diagnostics.xlsx', '1.8 MB', 'Nov 8, 2024')">
+                <div class="file-icon-wrapper">📈</div>
+                <div class="file-info">
+                    <h3>obd-diagnostics.xlsx</h3>
+                    <div class="file-meta">
+                        <span>1.8 MB</span>
+                        <span>Nov 8, 2024</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-card" onclick="openFileModal('engine-data.csv', '1.5 MB', 'Nov 7, 2024')">
+                <div class="file-icon-wrapper">📊</div>
+                <div class="file-info">
+                    <h3>engine-data.csv</h3>
+                    <div class="file-meta">
+                        <span>1.5 MB</span>
+                        <span>Nov 7, 2024</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-card" onclick="openFileModal('fleet-analysis.xlsx', '3.2 MB', 'Nov 5, 2024')">
+                <div class="file-icon-wrapper">📈</div>
+                <div class="file-info">
+                    <h3>fleet-analysis.xlsx</h3>
+                    <div class="file-meta">
+                        <span>3.2 MB</span>
+                        <span>Nov 5, 2024</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
+                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="files-list" id="filesList">
+            <div class="file-row" onclick="openFileModal('vehicle-data-2024.csv', '2.4 MB', 'Nov 10, 2024')">
+                <div class="file-name-col">
+                    <div class="file-icon-small">📊</div>
+                    <span class="file-name-text">vehicle-data-2024.csv</span>
+                </div>
+                <div class="file-col">2.4 MB</div>
+                <div class="file-col">CSV</div>
+                <div class="file-col">Nov 10, 2024</div>
+                <div class="file-actions-col">
+                    <button class="icon-btn" onclick="event.stopPropagation()">📥</button>
+                    <button class="icon-btn" onclick="event.stopPropagation()">🗑️</button>
+                </div>
+            </div>
+
+            <div class="file-row" onclick="openFileModal('obd-diagnostics.xlsx', '1.8 MB', 'Nov 8, 2024')">
+                <div class="file-name-col">
+                    <div class="file-icon-small">📈</div>
+                    <span class="file-name-text">obd-diagnostics.xlsx</span>
+                </div>
+                <div class="file-col">1.8 MB</div>
+                <div class="file-col">Excel</div>
+                <div class="file-col">Nov 8, 2024</div>
+                <div class="file-actions-col">
+                    <button class="icon-btn" onclick="event.stopPropagation()">📥</button>
+                    <button class="icon-btn" onclick="event.stopPropagation()">🗑️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- File Modal -->
+    <div class="modal" id="fileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>File Details</h2>
+                <button class="close-btn" onclick="closeFileModal()">×</button>
+            </div>
+            <div class="file-preview">
+                <div class="preview-icon" id="previewIcon">📊</div>
+                <h3 id="previewFileName">File Name</h3>
+            </div>
+            <div class="preview-details">
+                <div class="detail-row">
+                    <span>File Size:</span>
+                    <span id="previewFileSize">-</span>
+                </div>
+                <div class="detail-row">
+                    <span>Upload Date:</span>
+                    <span id="previewFileDate">-</span>
+                </div>
+            </div>
+            <div class="video-actions" style="margin-top: 1.5rem;">
+                <button class="action-btn">📥 Download</button>
+                <button class="action-btn">🔗 Share</button>
+                <button class="action-btn">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="videoModalTitle">Video Title</h2>
+                <button class="close-btn" onclick="closeVideoModal()">×</button>
+            </div>
+            <div class="video-player">🎬 Video Player</div>
+            <div class="video-meta">
+                <span id="modalDate">-</span>
+                <span class="video-status">✓ Completed</span>
+            </div>
+            <div class="video-actions" style="margin-top: 1.5rem;">
+                <button class="action-btn">📥 Download</button>
+                <button class="action-btn">🔗 Share</button>
+                <button class="action-btn">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/uploads.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos Generated - OBD Vision</title>
+    <link rel="stylesheet" href="css/videosgen.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <div class="nav-logo-icon">OV</div>
+                <span>OBD Vision</span>
+            </a>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="uploads.html">Files Uploaded</a></li>
+                    <li><a href="videos.html" class="active">Videos Generated</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-info">
+                        <h4>John Doe</h4>
+                        <p>john@company.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Videos Generated</h1>
+                <p>View and manage all your generated videos</p>
+            </div>
+            <div class="page-actions">
+                <a href="dashboard.html" class="btn btn-primary">
+                    <span>➕</span>
+                    <span>Create New Video</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Total Videos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">21</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Processing</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">4.2 GB</div>
+                <div class="stat-label">Total Size</div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search videos..." id="videoSearch" oninput="searchVideos()">
+            </div>
+            <div class="filter-group">
+                <select class="filter-select" id="videoStatusFilter" onchange="filterVideos()">
+                    <option value="all">All Videos</option>
+                    <option value="completed">Completed</option>
+                    <option value="processing">Processing</option>
+                </select>
+                <select class="filter-select" id="videoSortFilter" onchange="sortVideos()">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="duration">Duration</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Videos Grid -->
+        <div class="videos-grid" id="videosGrid">
+            <div class="video-card" onclick="openVideoModal('Vehicle Performance Analysis', 'Nov 10, 2024', '3:45', '45 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">3:45</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Vehicle Performance Analysis</div>
+                    <div class="video-meta">
+                        <span>Nov 10, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('Vehicle Performance Analysis')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('Vehicle Performance Analysis')">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openVideoModal('Engine Diagnostics Report', 'Nov 8, 2024', '4:20', '52 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">4:20</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Engine Diagnostics Report</div>
+                    <div class="video-meta">
+                        <span>Nov 8, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('Engine Diagnostics Report')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('Engine Diagnostics Report')">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    ⏳
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Fleet Data Analysis</div>
+                    <div class="video-meta">
+                        <span>Nov 11, 2024</span>
+                        <span class="video-status processing">⏱️ Processing</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" disabled>Processing...</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openVideoModal('Highway Drive Analysis', 'Nov 5, 2024', '2:15', '28 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">2:15</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Highway Drive Analysis</div>
+                    <div class="video-meta">
+                        <span>Nov 5, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('Highway Drive Analysis')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('Highway Drive Analysis')">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openVideoModal('City Traffic Report', 'Nov 3, 2024', '5:10', '68 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">5:10</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">City Traffic Report</div>
+                    <div class="video-meta">
+                        <span>Nov 3, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('City Traffic Report')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('City Traffic Report')">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openVideoModal('Fuel Efficiency Study', 'Nov 1, 2024', '3:30', '42 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">3:30</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Fuel Efficiency Study</div>
+                    <div class="video-meta">
+                        <span>Nov 1, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('Fuel Efficiency Study')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('Fuel Efficiency Study')">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openVideoModal('Sensor Data Visualization', 'Oct 28, 2024', '4:05', '51 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">4:05</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Sensor Data Visualization</div>
+                    <div class="video-meta">
+                        <span>Oct 28, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('Sensor Data Visualization')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('Sensor Data Visualization')">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card" onclick="openVideoModal('Brake System Check', 'Oct 25, 2024', '2:50', '35 MB')">
+                <div class="video-thumbnail">
+                    🎬
+                    <div class="play-icon">▶</div>
+                    <div class="video-duration">2:50</div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">Brake System Check</div>
+                    <div class="video-meta">
+                        <span>Oct 25, 2024</span>
+                        <span class="video-status">✓ Completed</span>
+                    </div>
+                    <div class="video-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); downloadVideo('Brake System Check')">Download</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); shareVideo('Brake System Check')">Share</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="videoModalTitle">Video Title</h2>
+                <button class="close-btn" onclick="closeVideoModal()">×</button>
+            </div>
+            <div class="video-player">
+                🎬 Video Player
+            </div>
+            <div class="video-details">
+                <div class="detail-row">
+                    <span class="detail-label">Created:</span>
+                    <span class="detail-value" id="modalDate">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Duration:</span>
+                    <span class="detail-value" id="modalDuration">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">File Size:</span>
+                    <span class="detail-value" id="modalSize">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="video-status">✓ Completed</span>
+                </div>
+            </div>
+            <div class="video-actions">
+                <button class="action-btn" onclick="downloadVideoFromModal()">📥 Download</button>
+                <button class="action-btn" onclick="shareVideoFromModal()">🔗 Share</button>
+                <button class="action-btn" onclick="deleteVideoFromModal()">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/videosgen.js"></script>
+</body>
+</html>

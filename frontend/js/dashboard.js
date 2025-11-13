@@ -1,5 +1,4 @@
         let dataFileUploaded = false;
-        let photoFileUploaded = false;
 
         // Handle OBD-II Data Upload
         function handleDataUpload(event) {
@@ -14,25 +13,10 @@
             }
         }
 
-        // Handle Photo Upload
-        function handlePhotoUpload(event) {
-            const files = event.target.files;
-            if (files.length > 0) {
-                document.getElementById('photoUploadArea').classList.add('active');
-                document.getElementById('photoFileName').textContent = 
-                    files.length > 1 ? `${files.length} images selected` : files[0].name;
-                document.getElementById('photoFileSize').textContent = 
-                    formatFileSize(Array.from(files).reduce((acc, file) => acc + file.size, 0));
-                document.getElementById('photoFileInfo').classList.add('show');
-                photoFileUploaded = true;
-                checkGenerateButton();
-            }
-        }
-
         // Check if generate button should be enabled
         function checkGenerateButton() {
             const generateBtn = document.getElementById('generateBtn');
-            if (dataFileUploaded && photoFileUploaded) {
+            if (dataFileUploaded) {
                 generateBtn.disabled = false;
             }
         }
@@ -51,14 +35,10 @@
             alert('🎬 Video generation started! This will take 2-3 minutes. You will be notified when it\'s ready.');
             // Reset form
             document.getElementById('dataUploadArea').classList.remove('active');
-            document.getElementById('photoUploadArea').classList.remove('active');
             document.getElementById('dataFileInfo').classList.remove('show');
-            document.getElementById('photoFileInfo').classList.remove('show');
             document.getElementById('dataFile').value = '';
-            document.getElementById('photoFile').value = '';
             document.getElementById('generateBtn').disabled = true;
             dataFileUploaded = false;
-            photoFileUploaded = false;
         }
 
         // Open Video Modal
@@ -140,36 +120,5 @@
             if (files.length > 0) {
                 const event = { target: { files: files } };
                 handleDataUpload(event);
-            }
-        }
-
-        // Drag and drop for photo upload
-        const photoUploadArea = document.getElementById('photoUploadArea');
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            photoUploadArea.addEventListener(eventName, preventDefaults, false);
-        });
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            photoUploadArea.addEventListener(eventName, () => {
-                photoUploadArea.style.borderColor = 'var(--primary)';
-                photoUploadArea.style.background = 'rgba(99, 102, 241, 0.05)';
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            photoUploadArea.addEventListener(eventName, () => {
-                photoUploadArea.style.borderColor = '#cbd5e1';
-                photoUploadArea.style.background = '#fafafa';
-            }, false);
-        });
-
-        photoUploadArea.addEventListener('drop', handlePhotoDrop, false);
-
-        function handlePhotoDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files.length > 0) {
-                const event = { target: { files: files } };
-                handlePhotoUpload(event);
             }
         }

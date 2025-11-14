@@ -75,7 +75,6 @@ async function handleSignup(event) {
     }
 }
 
-// ------------------ Handle Login ------------------
 async function handleLogin(event) {
     event.preventDefault();
     const email = document.getElementById('login-email').value.trim();
@@ -86,12 +85,14 @@ async function handleLogin(event) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
-            credentials: 'include' // include cookies for JWT
         });
 
         const data = await res.json();
 
-        if (data.success) {
+        if (data.success && data.token) {
+            // ✅ STORE JWT IN LOCALSTORAGE
+            localStorage.setItem("token", data.token);
+
             showMessage('Login successful! Redirecting...');
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
@@ -104,6 +105,7 @@ async function handleLogin(event) {
         showMessage('Server error', true);
     }
 }
+
 
 // ------------------ Social Login (placeholder) ------------------
 function socialLogin(provider) {

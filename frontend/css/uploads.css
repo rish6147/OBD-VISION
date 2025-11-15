@@ -22,6 +22,118 @@
             color: var(--dark);
         }
 
+        /* ------------------ GRID FILE CARDS ------------------ */
+.file-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.file-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.file-card .file-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.file-card .file-date {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-bottom: 0.8rem;
+}
+
+.file-card .file-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.file-card .file-actions button {
+    border: none;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.file-card .file-actions button:hover {
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* ------------------ LIST VIEW ITEMS ------------------ */
+.file-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.file-list-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.file-list-item .file-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.file-list-item .file-date {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-right: 1rem;
+}
+
+.file-list-item .file-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.file-list-item .file-actions button {
+    border: none;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.file-list-item .file-actions button:hover {
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* Optional: add small icons inside buttons */
+.file-actions button::before {
+    margin-right: 0.2rem;
+}
+
+
         nav {
             background: white;
             border-bottom: 1px solid #e2e8f0;

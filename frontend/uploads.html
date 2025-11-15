@@ -64,98 +64,17 @@
             </div>
         </div>
 
+        <!-- Dynamic Files Grid -->
         <div class="files-grid" id="filesGrid">
-            <div class="file-card" onclick="openFileModal('vehicle-data-2024.csv', '2.4 MB', 'Nov 10, 2024')">
-                <div class="file-icon-wrapper">📊</div>
-                <div class="file-info">
-                    <h3>vehicle-data-2024.csv</h3>
-                    <div class="file-meta">
-                        <span>2.4 MB</span>
-                        <span>Nov 10, 2024</span>
-                    </div>
-                    <div class="file-actions">
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="file-card" onclick="openFileModal('obd-diagnostics.xlsx', '1.8 MB', 'Nov 8, 2024')">
-                <div class="file-icon-wrapper">📈</div>
-                <div class="file-info">
-                    <h3>obd-diagnostics.xlsx</h3>
-                    <div class="file-meta">
-                        <span>1.8 MB</span>
-                        <span>Nov 8, 2024</span>
-                    </div>
-                    <div class="file-actions">
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="file-card" onclick="openFileModal('engine-data.csv', '1.5 MB', 'Nov 7, 2024')">
-                <div class="file-icon-wrapper">📊</div>
-                <div class="file-info">
-                    <h3>engine-data.csv</h3>
-                    <div class="file-meta">
-                        <span>1.5 MB</span>
-                        <span>Nov 7, 2024</span>
-                    </div>
-                    <div class="file-actions">
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="file-card" onclick="openFileModal('fleet-analysis.xlsx', '3.2 MB', 'Nov 5, 2024')">
-                <div class="file-icon-wrapper">📈</div>
-                <div class="file-info">
-                    <h3>fleet-analysis.xlsx</h3>
-                    <div class="file-meta">
-                        <span>3.2 MB</span>
-                        <span>Nov 5, 2024</span>
-                    </div>
-                    <div class="file-actions">
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Download</button>
-                        <button class="action-btn-small" onclick="event.stopPropagation()">Delete</button>
-                    </div>
-                </div>
-            </div>
+            <!-- Files will be populated here via JS -->
         </div>
 
+        <!-- Dynamic Files List -->
         <div class="files-list" id="filesList">
-            <div class="file-row" onclick="openFileModal('vehicle-data-2024.csv', '2.4 MB', 'Nov 10, 2024')">
-                <div class="file-name-col">
-                    <div class="file-icon-small">📊</div>
-                    <span class="file-name-text">vehicle-data-2024.csv</span>
-                </div>
-                <div class="file-col">2.4 MB</div>
-                <div class="file-col">CSV</div>
-                <div class="file-col">Nov 10, 2024</div>
-                <div class="file-actions-col">
-                    <button class="icon-btn" onclick="event.stopPropagation()">📥</button>
-                    <button class="icon-btn" onclick="event.stopPropagation()">🗑️</button>
-                </div>
-            </div>
-
-            <div class="file-row" onclick="openFileModal('obd-diagnostics.xlsx', '1.8 MB', 'Nov 8, 2024')">
-                <div class="file-name-col">
-                    <div class="file-icon-small">📈</div>
-                    <span class="file-name-text">obd-diagnostics.xlsx</span>
-                </div>
-                <div class="file-col">1.8 MB</div>
-                <div class="file-col">Excel</div>
-                <div class="file-col">Nov 8, 2024</div>
-                <div class="file-actions-col">
-                    <button class="icon-btn" onclick="event.stopPropagation()">📥</button>
-                    <button class="icon-btn" onclick="event.stopPropagation()">🗑️</button>
-                </div>
-            </div>
+            <!-- Files will be populated here via JS -->
         </div>
     </div>
+
     <!-- File Modal -->
     <div class="modal" id="fileModal">
         <div class="modal-content">

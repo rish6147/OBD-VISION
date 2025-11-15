@@ -3,260 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - OBD Vision</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>OBD-II Video Analytics | Transform Vehicle Data Into Cinematic Videos</title>
+    <link rel="stylesheet" href="css/style.css">
+        
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <div class="nav-logo-icon">OV</div>
+            <div class="logo">
+                <div class="logo-icon"></div>
                 <span>OBD Vision</span>
             </div>
-            <div class="nav-right">
-                <ul class="nav-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="videosgen.html">My Videos</a></li>
-                    <li><a href="uploads.html">Uploads</a></li>
-                    <li><a href="#">Help</a></li>
-                </ul>
-                <div class="user-profile">
-                    <div class="user-avatar">JD</div>
-                    <div class="user-info">
-                        <h4 id="navbar-username">John Doe</h4>
-                        <p id="navbar-email">john@company.com</p>
-                    </div>
-                </div>
-            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#how-to-use">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="auth.html" class="nav-cta">Login</a></li>
+            </ul>
         </div>
     </nav>
 
-    <!-- Main Dashboard -->
-    <div class="dashboard-container">
-        <!-- Header -->
-        <div class="dashboard-header">
-            <h1 id="welcome-msg">Welcome back, John! 👋</h1>
-            <p>Create stunning videos from your OBD-II data in minutes</p>
-        </div>
+    <section id="home">
+        <canvas class="hero-bg" id="heroCanvas"></canvas>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span>✨</span>
+                    <span>Trusted by 500+ automotive professionals</span>
+                </div>
+                <h1>Turn Vehicle Data Into <span class="gradient-text">Cinematic Videos</span></h1>
+                <div class="typewriter-container">
+                    <span class="typewriter-prefix">Perfect for</span>
+                    <span class="typewriter-text" id="typewriter"></span>
+                    <span class="typewriter-cursor"></span>
+                </div>
+                <p class="hero-description">Upload OBD-II diagnostics in CSV or Excel format. Generate stunning visualization videos with AI-powered analytics. Share insights that drive decisions.</p>
+                <div class="cta-container">
+                    <a href="#how-to-use" class="cta-button">
+                        <span>Start Creating Free</span>
+                        <span>→</span>
+                    </a>
+                    <a href="#about" class="cta-button secondary">
+                        <span>Watch Demo</span>
+                        <span>▶</span>
+                    </a>
+                </div>
+                <div class="trust-badges">
+                    <div class="trust-item">
+                        <span class="trust-icon">✓</span>
+                        <span>No credit card required</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">✓</span>
+                        <span>Free 14-day trial</span>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">🎬</div>
-                <div class="stat-content">
-                    <div class="stat-value">24</div>
-                    <div class="stat-label">Total Videos Created</div>
+            <div class="hero-visual">
+                <div class="slider-wrapper">
+                    <div class="slider-container">
+                        <div class="slide active">
+                            <div class="slide-content">
+                                <div class="slide-icon">📊</div>
+                                <div class="slide-title">Upload Data</div>
+                                <div class="slide-description">CSV & Excel Support</div>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-content">
+                                <div class="slide-icon">🎬</div>
+                                <div class="slide-title">Generate Videos</div>
+                                <div class="slide-description">AI-Powered Processing</div>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-content">
+                                <div class="slide-icon">📈</div>
+                                <div class="slide-title">Visualize Insights</div>
+                                <div class="slide-description">Professional Analytics</div>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-content">
+                                <div class="slide-icon">🚀</div>
+                                <div class="slide-title">Share Results</div>
+                                <div class="slide-description">Export & Download</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-controls">
+                        <span class="slider-dot active" data-slide="0"></span>
+                        <span class="slider-dot" data-slide="1"></span>
+                        <span class="slider-dot" data-slide="2"></span>
+                        <span class="slider-dot" data-slide="3"></span>
+                    </div>
+                </div>
+                <div class="floating-card floating-card-1">
+                    <div class="floating-card-icon">⚡</div>
+                    <div class="floating-card-text">2min processing</div>
+                </div>
+                <div class="floating-card floating-card-2">
+                    <div class="floating-card-icon">✓</div>
+                    <div class="floating-card-text">99.9% uptime</div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Upload Section -->
-        <div class="upload-section">
-            <div class="upload-header">
-                <h2>Create New Video</h2>
+    <div class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">XXX</div>
+                <div class="stat-label">Videos Created</div>
             </div>
-            <div class="upload-grid">
-                <!-- OBD-II Data Upload -->
-                <div class="upload-area" id="dataUploadArea" onclick="document.getElementById('dataFile').click()">
-                    <div class="upload-icon">📊</div>
-                    <h3>Upload OBD-II Data</h3>
-                    <p>CSV or Excel files with vehicle diagnostics</p>
-                    <button class="upload-btn">
-                        <span>Choose File</span>
-                        <span>📁</span>
-                    </button>
-                    <input type="file" id="dataFile" accept=".csv,.xlsx,.xls" style="display: none;" onchange="handleDataUpload(event)">
-                    <div class="file-info" id="dataFileInfo">
-                        <div class="file-name" id="dataFileName"></div>
-                        <div class="file-size" id="dataFileSize"></div>
-                    </div>
-                </div>
+            <div class="stat-item">
+                <div class="stat-number">XX+</div>
+                <div class="stat-label">Active Users</div>
             </div>
-
-            <div class="generate-section">
-                <button class="generate-btn" id="generateBtn" disabled onclick="generateVideo()">
-                    🎬 Generate Video
-                </button>
+            <div class="stat-item">
+                <div class="stat-number">XX+</div>
+                <div class="stat-label">Data Parameters</div>
             </div>
-        </div>
-
-        <!-- Generated Videos -->
-        <div class="videos-section">
-            <div class="videos-header">
-                <h2>Your Videos</h2>
-                <div class="filter-tabs">
-                    <button class="filter-tab active">All</button>
-                    <button class="filter-tab">Completed</button>
-                    <button class="filter-tab">Processing</button>
-                </div>
-            </div>
-
-            <div class="videos-grid">
-                <!-- Video Card 1 -->
-                <div class="video-card" onclick="openVideoModal('Vehicle Performance Analysis', '2024-11-10')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Vehicle Performance Analysis</div>
-                        <div class="video-meta">
-                            <span>Nov 10, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 2 -->
-                <div class="video-card" onclick="openVideoModal('Engine Diagnostics Report', '2024-11-08')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Engine Diagnostics Report</div>
-                        <div class="video-meta">
-                            <span>Nov 8, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 3 (Processing) -->
-                <div class="video-card">
-                    <div class="video-thumbnail">
-                        ⏳
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Fleet Data Analysis</div>
-                        <div class="video-meta">
-                            <span>Nov 11, 2024</span>
-                            <span class="video-status processing">⏱️ Processing</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" disabled>Processing...</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 4 -->
-                <div class="video-card" onclick="openVideoModal('Highway Drive Analysis', '2024-11-05')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Highway Drive Analysis</div>
-                        <div class="video-meta">
-                            <span>Nov 5, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 5 -->
-                <div class="video-card" onclick="openVideoModal('City Traffic Report', '2024-11-03')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">City Traffic Report</div>
-                        <div class="video-meta">
-                            <span>Nov 3, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 6 -->
-                <div class="video-card" onclick="openVideoModal('Fuel Efficiency Study', '2024-11-01')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Fuel Efficiency Study</div>
-                        <div class="video-meta">
-                            <span>Nov 1, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-item">
+                <div class="stat-number">X.X</div>
+                <div class="stat-label">User Rating</div>
             </div>
         </div>
     </div>
 
-    <!-- Video Modal -->
-    <div class="modal" id="videoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Video Title</h2>
-                <button class="close-btn" onclick="closeVideoModal()">×</button>
-            </div>
-            <div class="video-player">
-                🎬 Video Player
-            </div>
-            <div class="video-meta">
-                <span id="modalDate"></span>
-                <span class="video-status">✓ Completed</span>
-            </div>
-            <div class="video-actions" style="margin-top: 1.5rem;">
-                <button class="action-btn" onclick="downloadVideo()">📥 Download</button>
-                <button class="action-btn" onclick="shareVideo()">🔗 Share</button>
-                <button class="action-btn" onclick="deleteVideo()">🗑️ Delete</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Loading Modal -->
-    <div class="modal" id="loadingModal">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <h2 class="loading-title">Generating Your Video</h2>
-            <p class="loading-text">Processing OBD-II data and creating visualization...</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <p class="loading-percentage" id="loadingPercentage">0%</p>
-            <div class="loading-steps">
-                <div class="loading-step" id="step1">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Uploading data...</span>
+    <section id="about">
+        <h2>Why Choose OBD Vision?</h2>
+        <p class="section-subtitle">The most advanced platform for automotive data visualization trusted by industry leaders worldwide</p>
+        <div class="about-content">
+            <div class="about-text">
+                <p>We're transforming how vehicle diagnostics data is analyzed, visualized, and shared. Our AI-powered platform converts raw OBD-II data into professional-quality videos that make complex information instantly understandable.</p>
+                <p>Built for mechanics, automotive engineers, fleet managers, and car enthusiasts who demand precision, speed, and stunning visuals in their diagnostic reports.</p>
+                <div class="about-highlight">
+                    <strong>Our Mission:</strong> Democratizing automotive data intelligence through cutting-edge visualization technology that anyone can use.
                 </div>
-                <div class="loading-step" id="step2">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Analyzing metrics...</span>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🎬</span>
+                    <h3>AI Video Generation</h3>
+                    <p>Advanced algorithms create cinematic videos with smooth animations and professional transitions</p>
                 </div>
-                <div class="loading-step" id="step3">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Rendering video...</span>
+                <div class="feature-card">
+                    <span class="feature-icon">📁</span>
+                    <h3>Universal Compatibility</h3>
+                    <p>Supports CSV, Excel, and 20+ OBD-II data formats with intelligent parsing</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Real-Time Processing</h3>
+                    <p>Cloud-powered infrastructure delivers results in under 2 minutes</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Fully Customizable</h3>
+                    <p>Choose from 15+ templates, custom branding, and flexible export options</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <script src="js/dashboard.js"></script>
+    <section id="how-to-use">
+        <h2>How It Works</h2>
+        <p class="section-subtitle">From raw data to professional video in three simple steps</p>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Upload Your Data</h3>
+                <p>Drag and drop your OBD-II data file. Our system automatically validates and processes CSV, Excel, and other formats securely.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Customize & Configure</h3>
+                <p>Select visualization style, choose metrics to highlight, adjust timeframes, and add your branding—all in an intuitive interface.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Generate & Share</h3>
+                <p>AI generates your professional video in minutes. Download in HD, 4K, or share directly to your team or clients.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Get In Touch</h2>
+        <p class="section-subtitle">Questions? We're here to help you succeed</p>
+        <div class="contact-container">
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="John Smith">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="john@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" placeholder="Your Company">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+                </div>
+                <div class="form-group full-width">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your project or how we can help..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>OBD Vision</h3>
+                <p>Transforming vehicle diagnostics data into stunning visualizations. The professional choice for automotive data analytics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <div class="footer-links">
+                    <a href="#home">Features</a>
+                    <a href="#about">Pricing</a>
+                    <a href="#">Templates</a>
+                    <a href="#">API</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <div class="footer-links">
+                    <a href="#about">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Blog</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                    <a href="#">GDPR</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 OBD Vision. All rights reserved. Made with ❤️ for automotive professionals.</p>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
 </body>
 </html>

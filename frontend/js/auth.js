@@ -1,6 +1,4 @@
-// frontend/js/auth.js
-
-const API_BASE = "http://127.0.0.1:5000/api"; // change if your backend is on a different port
+const API_BASE = "http://127.0.0.1:5000/api"; // backend API base
 
 // ------------------ Form Switch ------------------
 function switchForm(formType) {
@@ -10,14 +8,10 @@ function switchForm(formType) {
 
     if (formType === 'signup') {
         loginForm.classList.remove('active');
-        setTimeout(() => {
-            signupForm.classList.add('active');
-        }, 300);
+        setTimeout(() => signupForm.classList.add('active'), 300);
     } else {
         signupForm.classList.remove('active');
-        setTimeout(() => {
-            loginForm.classList.add('active');
-        }, 300);
+        setTimeout(() => loginForm.classList.add('active'), 300);
     }
 }
 
@@ -34,9 +28,7 @@ function showMessage(message, isError = false) {
     textEl.textContent = message;
     msgEl.style.color = isError ? 'red' : 'green';
     msgEl.classList.add('show');
-    setTimeout(() => {
-        msgEl.classList.remove('show');
-    }, 4000);
+    setTimeout(() => msgEl.classList.remove('show'), 4000);
 }
 
 // ------------------ Handle Signup ------------------
@@ -57,8 +49,7 @@ async function handleSignup(event) {
         const res = await fetch(`${API_BASE}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ firstName, lastName, email, password, confirmPassword: confirm }),
-            credentials: 'include' // must include cookies
+            body: JSON.stringify({ firstName, lastName, email, password }),
         });
 
         const data = await res.json();
@@ -75,6 +66,7 @@ async function handleSignup(event) {
     }
 }
 
+// ------------------ Handle Login ------------------
 async function handleLogin(event) {
     event.preventDefault();
     const email = document.getElementById('login-email').value.trim();
@@ -90,13 +82,11 @@ async function handleLogin(event) {
         const data = await res.json();
 
         if (data.success && data.token) {
-            // ✅ STORE JWT IN LOCALSTORAGE
+            // ✅ Store JWT in localStorage
             localStorage.setItem("token", data.token);
 
             showMessage('Login successful! Redirecting...');
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
+            setTimeout(() => window.location.href = 'dashboard.html', 1000);
         } else {
             showMessage(data.error || 'Login failed', true);
         }
@@ -105,7 +95,6 @@ async function handleLogin(event) {
         showMessage('Server error', true);
     }
 }
-
 
 // ------------------ Social Login (placeholder) ------------------
 function socialLogin(provider) {

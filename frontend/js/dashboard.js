@@ -74,13 +74,78 @@ function formatFileSize(bytes) {
 
 // Generate Video
 function generateVideo() {
-    alert('🎬 Video generation started! This will take 2-3 minutes. You will be notified when it\'s ready.');
-    // Reset form
-    document.getElementById('dataUploadArea').classList.remove('active');
-    document.getElementById('dataFileInfo').classList.remove('show');
-    document.getElementById('dataFile').value = '';
-    document.getElementById('generateBtn').disabled = true;
-    dataFileUploaded = false;
+    // Show loading modal
+    showLoadingModal();
+    
+    // Simulate video generation process
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += 2;
+        updateProgress(progress);
+        
+        // Update steps based on progress
+        if (progress >= 30 && progress < 60) {
+            updateStep(1, 'completed');
+            updateStep(2, 'active');
+        } else if (progress >= 60 && progress < 100) {
+            updateStep(2, 'completed');
+            updateStep(3, 'active');
+        } else if (progress >= 100) {
+            updateStep(3, 'completed');
+            clearInterval(progressInterval);
+            
+            // Show success message and close modal
+            setTimeout(() => {
+                closeLoadingModal();
+                alert('🎉 Video generated successfully! Check "Your Videos" section below.');
+                
+                // Reset form
+                document.getElementById('dataUploadArea').classList.remove('active');
+                document.getElementById('dataFileInfo').classList.remove('show');
+                document.getElementById('dataFile').value = '';
+                document.getElementById('generateBtn').disabled = true;
+                dataFileUploaded = false;
+            }, 500);
+        }
+    }, 100);
+}
+
+// Loading Modal Functions
+function showLoadingModal() {
+    document.getElementById('loadingModal').classList.add('show');
+    updateProgress(0);
+    resetSteps();
+    updateStep(1, 'active');
+}
+
+function closeLoadingModal() {
+    document.getElementById('loadingModal').classList.remove('show');
+}
+
+function updateProgress(percentage) {
+    document.getElementById('progressFill').style.width = percentage + '%';
+    document.getElementById('loadingPercentage').textContent = percentage + '%';
+}
+
+function resetSteps() {
+    for (let i = 1; i <= 3; i++) {
+        const step = document.getElementById('step' + i);
+        step.classList.remove('active', 'completed');
+        step.querySelector('.step-icon').textContent = '⏳';
+    }
+}
+
+function updateStep(stepNumber, status) {
+    const step = document.getElementById('step' + stepNumber);
+    step.classList.remove('active', 'completed');
+    
+    if (status === 'active') {
+        step.classList.add('active');
+        step.querySelector('.step-icon').textContent = '⏳';
+    } else if (status === 'completed') {
+        step.classList.add('completed');
+        step.querySelector('.step-icon').textContent = '✓';
+    }
 }
 
 // Open Video Modal
@@ -126,6 +191,19 @@ filterTabs.forEach(tab => {
 document.getElementById('videoModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeVideoModal();
+    }
+});
+
+// Close loading modal when clicking outside (optional)
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingModal = document.getElementById('loadingModal');
+    if (loadingModal) {
+        loadingModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                // Uncomment if you want to allow closing by clicking outside
+                // closeLoadingModal();
+            }
+        });
     }
 });
 

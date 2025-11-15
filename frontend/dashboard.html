@@ -230,6 +230,33 @@
         </div>
     </div>
 
+    <!-- Loading Modal -->
+    <div class="modal" id="loadingModal">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2 class="loading-title">Generating Your Video</h2>
+            <p class="loading-text">Processing OBD-II data and creating visualization...</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p class="loading-percentage" id="loadingPercentage">0%</p>
+            <div class="loading-steps">
+                <div class="loading-step" id="step1">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Uploading data...</span>
+                </div>
+                <div class="loading-step" id="step2">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Analyzing Data...</span>
+                </div>
+                <div class="loading-step" id="step3">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Processing Data...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/dashboard.js"></script>
 </body>
 </html>

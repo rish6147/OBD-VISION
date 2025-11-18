@@ -236,23 +236,78 @@
             <div class="loading-spinner"></div>
             <h2 class="loading-title">Generating Your Video</h2>
             <p class="loading-text">Processing OBD-II data and creating visualization...</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+
+            <!-- Main Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="loading-percentage" id="loadingPercentage">0%</p>
             </div>
-            <p class="loading-percentage" id="loadingPercentage">0%</p>
+
+            <!-- Process Steps -->
             <div class="loading-steps">
                 <div class="loading-step" id="step1">
                     <span class="step-icon">⏳</span>
-                    <span class="step-text">Uploading data...</span>
+                    <span class="step-text">Loading GPS Data</span>
+                    <span class="step-detail" id="step1-detail"></span>
                 </div>
                 <div class="loading-step" id="step2">
                     <span class="step-icon">⏳</span>
-                    <span class="step-text">Analyzing metrics...</span>
+                    <span class="step-text">Map Matching</span>
+                    <span class="step-detail" id="step2-detail"></span>
                 </div>
                 <div class="loading-step" id="step3">
                     <span class="step-icon">⏳</span>
-                    <span class="step-text">Rendering video...</span>
+                    <span class="step-text">Stop Detection</span>
+                    <span class="step-detail" id="step3-detail"></span>
                 </div>
+                <div class="loading-step" id="step4">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Capturing Photos</span>
+                    <span class="step-detail" id="step4-detail"></span>
+                </div>
+                <div class="loading-step" id="step5">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Frame Generation</span>
+                    <span class="step-detail" id="step5-detail"></span>
+                </div>
+                <div class="loading-step" id="step6">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">HTML Generation</span>
+                    <span class="step-detail" id="step6-detail"></span>
+                </div>
+                <div class="loading-step" id="step7">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Rendering Video</span>
+                    <span class="step-detail" id="step7-detail"></span>
+                </div>
+            </div>
+
+            <!-- Current Activity Display -->
+            <div class="current-activity">
+                <div class="activity-label">Current Activity</div>
+                <div class="activity-message" id="activityMessage">Initializing...</div>
+            </div>
+
+            <!-- Live Logs Section -->
+            <div class="logs-section">
+                <div class="logs-header">
+                    <span class="logs-title">Backend Logs</span>
+                    <button class="logs-toggle" onclick="toggleLogsVisibility()">Show</button>
+                </div>
+                <div class="logs-content" id="logsContent">
+                    <div class="log-entry" id="logContainer">
+                        <div class="log-item" style="color: #6366f1; font-weight: 600;">Waiting for backend response...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancelBtn" onclick="cancelVideoGeneration()">Cancel</button>
+                <button class="done-btn" id="doneBtn" style="display: none;" onclick="closeLoadingModal()">Done</button>
+                <button class="close-btn" id="closeBtn" style="display: none;" onclick="closeLoadingModal()">Close</button>
             </div>
         </div>
     </div>

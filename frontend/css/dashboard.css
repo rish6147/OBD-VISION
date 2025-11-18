@@ -498,21 +498,35 @@ nav {
 }
 
 /* Modal */
+
+#loadingModal {
+    display: none;   /* default */
+}
+
+#loadingModal.show {
+    display: flex;   /* when visible */
+    opacity: 1;      /* prevent ghost modal */
+    pointer-events: auto;
+    transform: scale(1);
+    z-index: 99999;
+}
+
+
 .modal {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
+    z-index: 9999;
     align-items: center;
     justify-content: center;
+    display: none;
 }
 
 .modal.show {
-    display: flex;
+    display: flex !important;
 }
 
 .modal-content {
@@ -523,6 +537,8 @@ nav {
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
+    position: relative;
+    z-index: 10000;
 }
 
 .modal-header {
@@ -574,9 +590,11 @@ nav {
 .loading-content {
     background: white;
     border-radius: 20px;
-    padding: 3rem;
-    max-width: 500px;
-    width: 90%;
+    padding: 2rem;
+    max-width: 650px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
     text-align: center;
 }
 
@@ -675,6 +693,193 @@ nav {
 .loading-step.completed .step-text {
     color: var(--success);
     font-weight: 600;
+}
+
+.step-detail {
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin-left: auto;
+    font-weight: 400;
+}
+
+.loading-step.active .step-detail {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.loading-step.completed .step-detail {
+    color: var(--success);
+}
+
+/* Progress Container */
+.progress-container {
+    margin: 1.5rem 0;
+}
+
+.loading-percentage {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 0.5rem;
+}
+
+/* Current Activity Display */
+.current-activity {
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+}
+
+.activity-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.activity-message {
+    font-size: 0.95rem;
+    color: var(--dark);
+    font-weight: 500;
+    word-break: break-word;
+}
+
+/* Logs Section */
+.logs-section {
+    margin-top: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--light-gray);
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.logs-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.logs-toggle {
+    padding: 0.4rem 0.8rem;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logs-toggle:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.logs-content {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    padding: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.logs-content.show {
+    display: block;
+}
+
+.log-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.log-item {
+    padding: 0.25rem 0;
+    color: #e2e8f0;
+    line-height: 1.4;
+}
+
+.log-item.progress {
+    color: #6366f1;
+    font-weight: 500;
+}
+
+.log-item.success {
+    color: #22c55e;
+}
+
+.log-item.error {
+    color: #ef4444;
+}
+
+.log-item.warning {
+    color: #f59e0b;
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.cancel-btn {
+    padding: 0.75rem 1.5rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.cancel-btn:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.done-btn {
+    padding: 0.75rem 1.5rem;
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.done-btn:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
 }
 
 /* Responsive */

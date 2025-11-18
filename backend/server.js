@@ -10,9 +10,15 @@ dotenv.config();
 const app = express();
 
 // CORS with frontend URL
+// Allow local dev origins (include localhost and 127.0.0.1)
 app.use(cors({
-    origin: ["http://127.0.0.1:5500", "http://127.0.0.1:5501"],
-    credentials: true
+  origin: [
+    "http://127.0.0.1:5500",
+    "http://127.0.0.1:5501",
+    "http://localhost:5500",
+    "http://localhost:5501"
+  ],
+  credentials: true
 }));
 
 // Parse JSON body

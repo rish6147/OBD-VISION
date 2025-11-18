@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { saveUpload, getUserUploads, deleteUpload } from "../controllers/uploadController.js";
+import { saveUpload, getUserUploads, deleteUpload, generateVideo, testProgress } from "../controllers/uploadController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import Upload from "../models/Upload.js";
 import path from "path";
@@ -44,5 +44,11 @@ router.get("/download/:id", authMiddleware, async (req, res) => {
 
 // Delete a file by ID
 router.delete("/:id", authMiddleware, deleteUpload);
+
+// Generate video from uploaded file (Server-Sent Events)
+router.post("/generate-video", authMiddleware, generateVideo);
+
+// TEST: SSE progress simulator (no auth) - helpful for frontend testing
+router.get("/test-progress", testProgress);
 
 export default router;

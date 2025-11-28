@@ -60,6 +60,23 @@ const API_BASE = "http://127.0.0.1:5000/api";
 // Global cache for uploads
 window.uploadsCache = [];
 
+// ------------------ FETCH USER ------------------
+async function fetchUser() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+        const res = await fetch(`${API_BASE}/user/me`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+            // Update avatar with first 2 characters of first name
+            const avatarEl = document.querySelector(".user-avatar");
+            if(avatarEl) avatarEl.textContent = data.user.firstName.substring(0, 2).toUpperCase();
+        }
+    } catch (e) { console.error(e); }
+}
+
 // Fetch all uploads
 async function fetchUserUploads() {
     const token = localStorage.getItem("token");
@@ -203,4 +220,7 @@ function formatFileSize(bytes) {
 }
 
 // Fetch uploads on page load
-window.addEventListener("DOMContentLoaded", fetchUserUploads);
+window.addEventListener("DOMContentLoaded", () => {
+    fetchUser();
+    fetchUserUploads();
+});

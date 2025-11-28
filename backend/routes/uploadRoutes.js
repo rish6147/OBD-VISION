@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { saveUpload, getUserUploads, deleteUpload, generateVideo, testProgress } from "../controllers/uploadController.js";
+import { saveUpload, getUserUploads, getUserVideos, deleteUpload, generateVideo, testProgress } from "../controllers/uploadController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import Upload from "../models/Upload.js";
 import path from "path";
@@ -25,6 +25,9 @@ router.post("/upload", authMiddleware, upload.single("file"), saveUpload);
 
 // Get all uploads of current user
 router.get("/my-uploads", authMiddleware, getUserUploads);
+
+// Get all videos for current user
+router.get("/my-videos", authMiddleware, getUserVideos);
 
 // Download a file by ID
 router.get("/download/:id", authMiddleware, async (req, res) => {

@@ -2,12 +2,21 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config();
 const app = express();
+
+// ✅ CRITICAL: Make the uploads folder accessible publicly
+// This allows frontend to access http://localhost:5000/uploads/videos/filename.mp4
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // CORS with frontend URL
 // Allow local dev origins (include localhost and 127.0.0.1)

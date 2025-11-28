@@ -21,7 +21,6 @@ export const saveUpload = async (req, res) => {
       user: userId,
       fileName: req.file.filename,
       originalName: req.file.originalname,
-      // Store absolute path for reliability when invoking external scripts
       filePath: path.resolve(req.file.path)
     });
 
@@ -57,6 +56,99 @@ export const getUserUploads = async (req, res) => {
   }
 };
 
+// ------------------ GET USER VIDEOS ------------------
+export const getUserVideos = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      // Fallback for demo - return all videos if no user
+      let videos = await Upload.find({
+        status: 'success',
+        videoPath: { $ne: null }
+      }).sort({ uploadedAt: -1 });
+
+      // If no videos in DB, return dummy videos for demo
+      if (videos.length === 0) {
+        videos = [
+          {
+            _id: 'dummy-18',
+            originalName: 'trial_18.xlsx',
+            updatedAt: new Date(),
+            videoPath: 'videos/trial_18.mp4',
+            size: 15000000,
+            status: 'success'
+          },
+          {
+            _id: 'dummy-19',
+            originalName: 'trial_19.xlsx',
+            updatedAt: new Date(),
+            videoPath: 'videos/trial_19.mp4',
+            size: 16000000,
+            status: 'success'
+          },
+          {
+            _id: 'dummy-20',
+            originalName: 'trial_20.xlsx',
+            updatedAt: new Date(),
+            videoPath: 'videos/trial_20.mp4',
+            size: 17000000,
+            status: 'success'
+          }
+        ];
+      }
+
+      return res.status(200).json({ success: true, videos });
+    }
+
+    // Return videos for the authenticated user OR videos without user (populated videos)
+    let videos = await Upload.find({
+      $or: [
+        { user: userId },
+        { user: { $exists: false } }, // For populated videos without user
+        { user: null }
+      ],
+      status: 'success',
+      videoPath: { $ne: null }
+    }).sort({ uploadedAt: -1 });
+
+    // If no videos in DB, return dummy videos for demo
+    if (videos.length === 0) {
+      videos = [
+        {
+          _id: 'dummy-18',
+          originalName: 'trial_18.xlsx',
+          updatedAt: new Date(),
+          videoPath: 'videos/trial_18.mp4',
+          size: 15000000,
+          status: 'success'
+        },
+        {
+          _id: 'dummy-19',
+          originalName: 'trial_19.xlsx',
+          updatedAt: new Date(),
+          videoPath: 'videos/trial_19.mp4',
+          size: 16000000,
+          status: 'success'
+        },
+        {
+          _id: 'dummy-20',
+          originalName: 'trial_20.xlsx',
+          updatedAt: new Date(),
+          videoPath: 'videos/trial_20.mp4',
+          size: 17000000,
+          status: 'success'
+        }
+      ];
+    }
+
+    res.status(200).json({ success: true, videos });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
+
 // ------------------ DELETE UPLOAD ------------------
 export const deleteUpload = async (req, res) => {
   try {
@@ -83,7 +175,7 @@ export const deleteUpload = async (req, res) => {
   }
 };
 
-// ------------------ GENERATE VIDEO ------------------
+// ------------------ GENERATE VIDEO (OPTIMIZED) ------------------
 export const generateVideo = async (req, res) => {
   try {
     const { fileId } = req.body;
@@ -115,146 +207,249 @@ export const generateVideo = async (req, res) => {
       return res.status(500).json({ success: false, error: "Video generator not found" });
     }
 
-    // Set response header for Server-Sent Events
+    // CRITICAL: Aggressive SSE headers to prevent browser timeout
     res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
     res.setHeader('Connection', 'keep-alive');
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('X-Accel-Buffering', 'no'); // Disable Nginx buffering
+    res.setHeader('Transfer-Encoding', 'chunked');
+    res.flushHeaders(); // Force flush headers immediately
+
+    // Update status to processing and set videoPath placeholder
+    await Upload.findByIdAndUpdate(fileId, {
+      status: 'processing',
+      message: 'Video generation in progress...',
+      progress: 0,
+      videoPath: `videos/video-${fileId}.mp4` // Placeholder path
+    });
 
     // Send initial event
-    res.write('data: {"status": "started", "message": "Starting video generation..."}\n\n');
+    res.write('data: {"stage": "processing", "message": "Starting video generation...", "progress": 0}\n\n');
 
     // Delete any existing video file to prevent premature success
     const videosDir = path.join(uploadsDir, 'videos');
     const videoPath = path.join(videosDir, 'relive_full_quality.mp4');
     if (fs.existsSync(videoPath)) {
-        fs.unlinkSync(videoPath);
+      fs.unlinkSync(videoPath);
     }
 
-    // Spawn Python process
-    const python = spawn('python', [codePyPath, filePath, uploadsDir], {
+    // Spawn Python process with unbuffered output
+    const python = spawn('python', ['-u', codePyPath, filePath, uploadsDir], {
       cwd: backendDir,
-      env: { ...process.env }
+      env: {
+        ...process.env,
+        PYTHONUNBUFFERED: '1' // CRITICAL: Force Python unbuffered output
+      }
     });
 
     let errorOutput = '';
-    let lastOutput = '';
-    // Buffer stdout lines to handle chunked data from Python
     let stdoutBuffer = '';
+    let lastProgressTime = Date.now();
 
-    // Parse Python output and send progress updates (line-buffered)
+    // CRITICAL: Aggressive keep-alive (every 3 seconds)
+    const keepAliveInterval = setInterval(() => {
+      try {
+        // Send SSE comment (ignored by parser but keeps connection alive)
+        res.write(': heartbeat\n\n');
+
+        // Safety check: if no progress for 60s, something is wrong
+        const timeSinceLastProgress = Date.now() - lastProgressTime;
+        if (timeSinceLastProgress > 60000) {
+          console.warn('[WARNING] No progress update for 60 seconds');
+          res.write('data: {"stage": "processing", "message": "Processing (backend still working)..."}\n\n');
+        }
+      } catch (err) {
+        clearInterval(keepAliveInterval);
+      }
+    }, 3000);
+
+    // Parse Python output (line-buffered)
     python.stdout.on('data', (data) => {
       stdoutBuffer += data.toString();
+      lastProgressTime = Date.now(); // Update last activity time
 
-      // Split into lines. Last element may be a partial line - keep it in buffer
       const lines = stdoutBuffer.split(/\r?\n/);
-      // Process all complete lines
+
       for (let i = 0; i < lines.length - 1; i++) {
         const output = lines[i].trim();
         if (!output) continue;
-        lastOutput = output;
+
         console.log('[PYTHON OUTPUT]', output);
 
         try {
-          // If line contains PROGRESS JSON
+          // PRIORITY: Handle PROGRESS JSON (from optimized code.py)
           if (output.startsWith('PROGRESS:')) {
             const jsonPart = output.replace(/^PROGRESS:/, '');
             try {
               const progressObj = JSON.parse(jsonPart);
+
+              // Forward directly to frontend with proper formatting
               const ssePayload = {
-                status: progressObj.stage || 'rendering',
+                stage: progressObj.stage || 'processing',
                 progress: typeof progressObj.progress === 'number' ? progressObj.progress : undefined,
-                message: progressObj.message || undefined,
-                step: progressObj.step || undefined,
-                detail: progressObj.detail || undefined
+                message: progressObj.message || '',
+                step: progressObj.step || undefined
               };
+
               res.write(`data: ${JSON.stringify(ssePayload)}\n\n`);
+              continue;
             } catch (e) {
-              console.error('Failed to parse PROGRESS JSON from Python:', e);
+              console.error('[ERROR] Failed to parse PROGRESS JSON:', e);
             }
-            continue;
           }
 
-          // Generic marker checks - now with PROGRESS JSON emission
+          // FALLBACK: Legacy marker-based progress (for old code.py versions)
           if (output.includes('📍 LOADING ALL GPS DATA') || output.includes('LOADING ALL GPS DATA')) {
-            res.write('data: {"status": "processing", "message": "Loading GPS data...", "step": "Loading Data", "progress": 5}\n\n');
+            res.write('data: {"stage": "processing", "message": "Loading GPS data...", "step": "Loading Data", "progress": 5}\n\n');
             continue;
           }
 
           if (output.includes('🛣️  MAP MATCHING') || output.includes('MAP MATCHING')) {
-            res.write('data: {"status": "processing", "message": "Matching GPS to roads...", "step": "Map Matching", "progress": 15}\n\n');
+            res.write('data: {"stage": "processing", "message": "Matching GPS to roads...", "step": "Map Matching", "progress": 15}\n\n');
             continue;
           }
 
           if (output.includes('🔍 COMPREHENSIVE STOP DETECTION') || output.includes('STOP DETECTION')) {
-            res.write('data: {"status": "processing", "message": "Detecting stops...", "step": "Stop Detection", "progress": 25}\n\n');
+            res.write('data: {"stage": "processing", "message": "Detecting stops...", "step": "Stop Detection", "progress": 25}\n\n');
             continue;
           }
 
           if (output.includes('📸 CAPTURING STOP PHOTOS') || output.includes('CAPTURING STOP PHOTOS')) {
-            res.write('data: {"status": "processing", "message": "Capturing street view photos...", "step": "Capturing Photos", "progress": 35}\n\n');
+            res.write('data: {"stage": "processing", "message": "Capturing photos...", "step": "Capturing Photos", "progress": 35}\n\n');
             continue;
           }
 
           if (output.includes('📹 GENERATING ADAPTIVE FRAMES') || output.includes('GENERATING ADAPTIVE FRAMES')) {
-            res.write('data: {"status": "processing", "message": "Generating adaptive frames...", "step": "Frame Generation", "progress": 50}\n\n');
+            res.write('data: {"stage": "processing", "message": "Generating frames...", "step": "Frame Generation", "progress": 50}\n\n');
             continue;
           }
 
           if (output.includes('🌐 Generating HTML viewer') || output.includes('Generating HTML viewer')) {
-            res.write('data: {"status": "processing", "message": "Generating visualization...", "step": "HTML Generation", "progress": 65}\n\n');
+            res.write('data: {"stage": "processing", "message": "Generating visualization...", "step": "HTML Generation", "progress": 65}\n\n');
             continue;
           }
 
           if (output.includes('📹 RENDERING') || output.includes('RENDERING VIDEO') || output.includes('🎬 RENDERING')) {
-            res.write('data: {"status": "rendering", "message": "Rendering video frames...", "step": "Rendering video", "progress": 75}\n\n');
+            res.write('data: {"stage": "processing", "message": "Rendering video...", "step": "Rendering video", "progress": 75}\n\n');
             continue;
           }
 
         } catch (e) {
-          console.error('Error parsing output line:', e);
+          console.error('[ERROR] Parsing output line:', e);
         }
       }
 
-      // Keep last partial line in the buffer
+      // Keep last partial line in buffer
       stdoutBuffer = lines[lines.length - 1];
     });
 
     python.stderr.on('data', (data) => {
       const output = data.toString();
       errorOutput += output;
-      console.error('[PYTHON ERROR]', output);
+      console.error('[PYTHON STDERR]', output);
 
-      // Still send progress updates even on stderr
-      if (!output.includes('Warning') && !output.includes('DeprecationWarning')) {
-        res.write(`data: {"status": "error", "message": "${output.replace(/"/g, '\\"')}"}\n\n`);
+      // Only send critical errors (not warnings)
+      if (!output.includes('Warning') &&
+          !output.includes('DeprecationWarning') &&
+          !output.includes('FutureWarning')) {
+        const cleanMsg = output.substring(0, 200).replace(/"/g, '\\"').replace(/\n/g, ' ');
+        res.write(`data: {"stage": "error", "message": "${cleanMsg}"}\n\n`);
       }
     });
 
-    python.on('close', (code) => {
-      if (code === 0) {
-        // Success - find the generated video
-        const videosDir = path.join(uploadsDir, 'videos');
-        const videoPath = path.join(videosDir, 'relive_full_quality.mp4');
+    python.on('close', async (code) => {
+      clearInterval(keepAliveInterval);
 
-        if (fs.existsSync(videoPath)) {
-          const videoFile = path.relative(uploadsDir, videoPath);
-          res.write(`data: {"status": "success", "message": "Video generated successfully!", "videoPath": "${videoFile}", "progress": 100}\n\n`);
+      if (code === 0) {
+        const videosDir = path.join(uploadsDir, 'videos');
+        const tempVideoPath = path.join(videosDir, 'relive_full_quality.mp4');
+
+        // ✅ FIX: Rename video uniquely using File ID so it doesn't get overwritten
+        const uniqueVideoName = `video-${fileId}.mp4`;
+        const finalVideoPath = path.join(videosDir, uniqueVideoName);
+
+        let finalStatus = 'success';
+        let finalMessage = "Video generated successfully!";
+        let videoFile = null;
+
+        if (fs.existsSync(tempVideoPath)) {
+          // Rename the file
+          fs.renameSync(tempVideoPath, finalVideoPath);
+
+          // Save relative path (e.g., "videos/video-123.mp4")
+          videoFile = path.join('videos', uniqueVideoName);
         } else {
-          res.write('data: {"status": "error", "message": "Video file not found after generation"}\n\n');
+          finalStatus = 'error';
+          finalMessage = "Video file not found after generation.";
         }
-      } else {
-        const errorMsg = errorOutput.substring(0, 200).replace(/"/g, '\\"');
-        res.write(`data: {"status": "error", "message": "Video generation failed with code ${code}: ${errorMsg}"}\n\n`);
+
+        // Update the upload record with video path and status
+        await Upload.findByIdAndUpdate(fileId, {
+          status: finalStatus,
+          message: finalMessage,
+          progress: 100,
+          videoPath: videoFile
+        });
+
+        res.write(`data: {"stage": "${finalStatus}", "message": "${finalMessage}", "videoPath": "${videoFile}", "progress": 100}\n\n`);
+
+      } else if (code !== null) {
+        // Non-zero exit code
+        let finalStatus = 'error';
+        let errorMsg = `Video generation failed with code ${code}.`;
+        // ... logic ...
+        await Upload.findByIdAndUpdate(fileId, {
+          status: finalStatus,
+          message: errorMsg,
+          progress: 0
+        });
+        console.error(`[ERROR] Python exited with code ${code}`);
+        res.write(`data: {"stage": "error", "message": "Generation failed (exit code ${code}): ${errorMsg}"}\n\n`);
       }
 
       res.end();
     });
 
+    // CRITICAL: Handle client disconnect gracefully
+    req.on('close', () => {
+      console.log('[INFO] Client disconnected, terminating Python process');
+      clearInterval(keepAliveInterval);
+
+      // Kill Python process tree
+      try {
+        python.kill('SIGTERM');
+
+        // Force kill after 2 seconds if still alive
+        setTimeout(() => {
+          if (!python.killed) {
+            python.kill('SIGKILL');
+          }
+        }, 2000);
+      } catch (err) {
+        console.error('[ERROR] Failed to kill Python process:', err);
+      }
+    });
+
+    // CRITICAL: Handle Python process errors
+    python.on('error', (err) => {
+      console.error('[ERROR] Python process error:', err);
+      clearInterval(keepAliveInterval);
+      res.write(`data: {"stage": "error", "message": "Failed to start video generation: ${err.message}"}\n\n`);
+      res.end();
+    });
+
   } catch (err) {
-    console.error(err);
-    res.setHeader('Content-Type', 'application/json');
-    return res.status(500).json({ success: false, error: "Server error" });
+    console.error('[ERROR] generateVideo exception:', err);
+
+    // If headers not sent yet, send JSON error
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json');
+      return res.status(500).json({ success: false, error: "Server error" });
+    } else {
+      // Headers already sent (SSE mode), send error event
+      res.write(`data: {"stage": "error", "message": "Server error: ${err.message}"}\n\n`);
+      res.end();
+    }
   }
 };
 
@@ -266,15 +461,21 @@ export const testProgress = async (req, res) => {
     res.setHeader('Connection', 'keep-alive');
 
     let pct = 0;
-    res.write('data: {"status":"started","message":"Starting test progress..."}\n\n');
+    res.write('data: {"stage":"processing","message":"Starting test progress...","progress":0}\n\n');
 
     const iv = setInterval(() => {
-      pct += Math.floor(Math.random() * 8) + 2; // random progress bumps
+      pct += Math.floor(Math.random() * 8) + 2;
       if (pct >= 100) pct = 100;
-      res.write(`data: ${JSON.stringify({ status: 'rendering', progress: pct })}\n\n`);
+
+      res.write(`data: ${JSON.stringify({
+        stage: 'processing',
+        progress: pct,
+        message: `Testing progress: ${pct}%`
+      })}\n\n`);
+
       if (pct >= 100) {
         clearInterval(iv);
-        res.write('data: {"status":"success","message":"Test complete","progress":100}\n\n');
+        res.write('data: {"stage":"success","message":"Test complete","progress":100}\n\n');
         res.end();
       }
     }, 400);

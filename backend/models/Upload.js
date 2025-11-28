@@ -21,6 +21,27 @@ const uploadSchema = new mongoose.Schema({
     uploadedAt: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'processing', 'success', 'error'],
+        default: 'pending'
+    },
+    videoPath: {
+        type: String,
+        default: null
+    },
+    message: {
+        type: String,
+        default: null
+    },
+    progress: {
+        type: Number,
+        default: 0
+    },
+    size: {
+        type: Number,
+        default: 0
     }
 });
 

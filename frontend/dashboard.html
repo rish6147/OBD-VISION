@@ -75,7 +75,7 @@
             </div>
 
             <div class="generate-section">
-                <button class="generate-btn" id="generateBtn" disabled onclick="generateVideo()">
+                <button type="button" class="generate-btn" id="generateBtn" disabled>
                     🎬 Generate Video
                 </button>
             </div>
@@ -83,129 +83,16 @@
 
         <!-- Generated Videos -->
         <div class="videos-section">
-            <div class="videos-header">
-                <h2>Your Videos</h2>
-                <div class="filter-tabs">
-                    <button class="filter-tab active">All</button>
-                    <button class="filter-tab">Completed</button>
-                    <button class="filter-tab">Processing</button>
-                </div>
-            </div>
-
-            <div class="videos-grid">
-                <!-- Video Card 1 -->
-                <div class="video-card" onclick="openVideoModal('Vehicle Performance Analysis', '2024-11-10')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Vehicle Performance Analysis</div>
-                        <div class="video-meta">
-                            <span>Nov 10, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 2 -->
-                <div class="video-card" onclick="openVideoModal('Engine Diagnostics Report', '2024-11-08')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Engine Diagnostics Report</div>
-                        <div class="video-meta">
-                            <span>Nov 8, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 3 (Processing) -->
-                <div class="video-card">
-                    <div class="video-thumbnail">
-                        ⏳
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Fleet Data Analysis</div>
-                        <div class="video-meta">
-                            <span>Nov 11, 2024</span>
-                            <span class="video-status processing">⏱️ Processing</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" disabled>Processing...</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 4 -->
-                <div class="video-card" onclick="openVideoModal('Highway Drive Analysis', '2024-11-05')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Highway Drive Analysis</div>
-                        <div class="video-meta">
-                            <span>Nov 5, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 5 -->
-                <div class="video-card" onclick="openVideoModal('City Traffic Report', '2024-11-03')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">City Traffic Report</div>
-                        <div class="video-meta">
-                            <span>Nov 3, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 6 -->
-                <div class="video-card" onclick="openVideoModal('Fuel Efficiency Study', '2024-11-01')">
-                    <div class="video-thumbnail">
-                        🎬
-                        <div class="play-icon">▶</div>
-                    </div>
-                    <div class="video-info">
-                        <div class="video-title">Fuel Efficiency Study</div>
-                        <div class="video-meta">
-                            <span>Nov 1, 2024</span>
-                            <span class="video-status">✓ Completed</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadVideo()">Download</button>
-                            <button class="action-btn" onclick="event.stopPropagation(); shareVideo()">Share</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="videos-header">
+        <h2>Your Videos</h2>
+        <div class="filter-tabs">
+            <button class="filter-tab active">All</button>
         </div>
+    </div>
+
+    <div class="videos-grid" id="videoGrid">
+        </div>
+</div>
     </div>
 
     <!-- Video Modal -->
@@ -311,7 +198,7 @@
             </div>
         </div>
     </div>
-
+    
     <script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -522,6 +522,34 @@
             color: var(--gray);
             margin-bottom: 2rem;
         }
+        /* Add to css/videogen.css */
+
+        .status-completed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-external {
+            background-color: #e0f2fe;
+            color: #075985;
+        }
+
+        .video-thumbnail {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Improve video card hover effect */
+        .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .video-card:hover .play-icon {
+            transform: scale(1.1);
+            background: #fff;
+        }
 
         /* Responsive */
         @media (max-width: 1200px) {
